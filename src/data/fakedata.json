@@ -1,0 +1,57 @@
+{
+  "players": [{
+    "id": "13700022",
+    "name": "Taro Misaki",
+    "desc": {
+      "img": "13700022",
+      "position": ["MO"],
+      "color": "Vert",
+      "collection": "Classic"
+    }
+  }, {
+    "id": "15800162",
+    "name": "Juan Diaz",
+    "desc": {
+      "img": "15800162",
+      "position": ["MO", "AT"],
+      "color": "Bleu",
+      "collection": "DF"
+    }
+  }, {
+    "id": "13100143",
+    "name": "Ozora Tsubasa",
+    "desc": {
+      "img": "13100143",
+      "position": ["MD", "MO"],
+      "color": "Vert",
+      "collection": "Premium"
+    }
+  }, {
+    "id": "26900063",
+    "name": "Ruud Klinsmann",
+    "desc": {
+      "img": "26900063",
+      "position": ["MD", "MO"],
+      "color": "Rouge",
+      "collection": "DC"
+    }
+  }, {
+    "id": "39100142",
+    "name": "Brian Cruyfford",
+    "desc": {
+      "img": "39100142",
+      "position": ["MO", "AT"],
+      "color": "Rouge",
+      "collection": "DF"
+    }
+  }, {
+    "id": "44000022",
+    "name": "Radunga",
+    "desc": {
+      "img": "44000022",
+      "position": ["DF", "MD"],
+      "color": "Rouge",
+      "collection": "DF"
+    }
+  }]
+}
