@@ -1,44 +1,56 @@
 <template>
 <div>
-  <div class="filter">
-    <select v-model="selected">
-      <option disabled value="">Choisissez</option>
-      <option>{{ typeForColor.bleu }}</option>
-      <option>{{ typeForColor.rouge }}</option>
-      <option>{{ typeForColor.vert }}</option>
-    </select>
-    <span> Sélectionné : {{ selected }}</span>
-    <br />
-    <br />
-  </div>
-  <div class="item-container">
-    <div class="autocomplete">
-      <input type="text" v-model="search" @input="onChange" />
-      <ul v-show="isOpen" class="autocomplete-results">
-        <li v-for="(item) in filteredPlayerslist" v-bind:key="item.id" @click="setResult(item.name)" class="autocomplete-result">
-          {{ item.name }}
-        </li>
-      </ul>
-    </div>
-    <div v-for="item in filteredPlayerslist" v-bind:key="item.id" class="item">
-      {{ item.name }}
-      <br />
-      <img v-bind:src="image(item.desc.img)" />
-      <img v-bind:src="imgSrcForColor(item.desc.color)" class="reduce" />
-    </div>
-  </div>
+  <form>
+    <fieldset>
+      <div class="filter">
+        <select v-model="selected">
+          <option disabled value="">Choisissez</option>
+          <option>{{ typeForColor.bleu }}</option>
+          <option>{{ typeForColor.rouge }}</option>
+          <option>{{ typeForColor.vert }}</option>
+        </select>
+        <span> Sélectionné : {{ selected }}</span>
+        <br />
+        <div class="autocomplete">
+          <input type="text" v-model="search" @input="onChange" />
+          <ul v-show="isOpen" class="autocomplete-results">
+            <li v-for="(item) in filteredPlayerslist" v-bind:key="item.IDFicJoueur" @click="setResult(item.NomJoueur)" class="autocomplete-result">
+              {{ item.NomJoueur }}
+            </li>
+          </ul>
+        </div>
+        <br />
+      </div>
+      <div class="item-container">
+        <div v-for="item in filteredPlayerslist" v-bind:key="item.IDFicJoueur" class="item">
+          <div class="column">
+            <div class="row align-center grow">
+              <div>
+                <img v-bind:src="imgSrcForColor(item.IDFicCouleur)" class="type" />
+              </div>
+              <div class="name grow">
+                {{ item.NomJoueur }}
+              </div>
+            </div>
+            <div class="row align-bottom">
+              <img v-bind:src="image(item.IDFicJoueur)" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+  </form>
 </div>
 </template>
 
 <script>
-import json from '../data/fakedata.json'
+import json from '../data/joueurs.json'
 
-const images = require.context('../assets/CTDT_mini_card/', false, /\.gif$/);
 const types = require.context('../assets/', false, /\.png$/);
 const typeForColor = {
-  "bleu": "Vit",
-  "rouge": "Force",
-  "vert": "Tech"
+  1: "Vit",
+  2: "Force",
+  3: "Tech"
 };
 
 export default {
@@ -46,7 +58,7 @@ export default {
   components: {},
   computed: {
     filteredPlayerslist() {
-      let currentPlayers = this.playerJSON.players;
+      let currentPlayers = this.playerJSON._SOURCE_sddSQL_30;
       currentPlayers = this.filteredPlayersByType(currentPlayers)
       //currentPlayers = this.filteredPlayersByRegion(currentPlayers)
       //currentPlayers = this.filteredPlayersByRarity(currentPlayers)
@@ -57,7 +69,7 @@ export default {
   methods: {
 
     filteredPlayersByName(currentPlayers) {
-      return currentPlayers.filter(item => item.name.toLowerCase().indexOf(this.search.toLowerCase()) > -1)
+      return currentPlayers.filter(item => item.NomJoueur.toLowerCase().indexOf(this.search.toLowerCase()) > -1)
     },
 
     setResult(item) {
@@ -66,26 +78,32 @@ export default {
     },
 
     filteredPlayersByType(currentPlayers) {
-      return currentPlayers.filter(p => this.type(p.desc.color) === this.selected || this.selected === '')
+      return currentPlayers.filter(p => this.type(p.IDFicCouleur) === this.selected || this.selected === '')
 
     },
 
     type(color) {
-      color = color.toLowerCase()
       if (color in typeForColor) {
         return typeForColor[color]
       } else {
-        alert("C'EST LA MERDE FFS ! " + color)
+        console.log(`[WARN] : ${Date(Date.now()).toString()} : ${color}.`)
       }
     },
 
     imgSrcForColor(color) {
       const type = this.type(color)
+      if (!type) {
+        return types('./gem.png')
+      }
       return types(`./${type}.png`)
     },
 
     image(id) {
-      return images(`./${id}.gif`)
+      try {
+        return require(`../assets/CTDT_mini_card/${id}.gif`)
+      } catch (e) {
+        return require('../assets/CTDT_mini_card/default.gif')
+      }
     },
     onChange() {
       this.isOpen = true;
@@ -107,6 +125,26 @@ export default {
 </script>
 
 <style>
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.type {
+  width: 21px;
+  height: auto;
+}
+
+.name {
+  margin-left: 5px;
+  text-align: center;
+}
+
 .item-container {
   width: 80%;
   margin-left: auto;
@@ -118,17 +156,19 @@ export default {
   justify-content: space-evenly;
 }
 
-.item {
-  width: 128px;
-  height: 128px;
-  margin-bottom: 10px;
-
-  flex-grow: 1 2 3;
+.grow {
+  flex-grow: 1;
 }
 
-.reduce {
-  width: 18%;
-  height: 18%;
+.item {
+  width: 128px;
+  margin-left: 25px;
+  margin-bottom: 10px;
+  display: flex;
+}
+
+.align-center {
+  align-items: center;
 }
 
 .autocomplete {
