@@ -6,16 +6,19 @@
         Liste des joueurs
       </legend>
       <div class="filter">
-        <div class="row align-center">
-          <input type="checkbox" id="vit" :value="VIT" v-model="checkedTypes" hidden="true">
-          <label for="vit"><img v-bind:src="imgSrcForColor(1)" /></label>
-          <input type="checkbox" id="force" :value="FORCE" v-model="checkedTypes" hidden="true">
-          <label for="force"><img v-bind:src="imgSrcForColor(2)" /></label>
-          <input type="checkbox" id="tec" :value="TEC" v-model="checkedTypes" hidden="true">
-          <label for="tec"><img v-bind:src="imgSrcForColor(3)" /></label>
-
-          <div class="autocomplete">
-            <input type="text" v-model="search" @input="onChange" class="grow" />
+        <div class="row .align-top">
+          <div class="row">
+            <input type="checkbox" id="vit" :value="VIT" v-model="checkedTypes" hidden="true">
+            <label for="vit"><img v-bind:src="imgSrcForColor(1)" /></label>
+            <input type="checkbox" id="force" :value="FORCE" v-model="checkedTypes" hidden="true">
+            <label for="force"><img v-bind:src="imgSrcForColor(2)" /></label>
+            <input type="checkbox" id="tec" :value="TEC" v-model="checkedTypes" hidden="true">
+            <label for="tec"><img v-bind:src="imgSrcForColor(3)" /></label>
+          </div>
+          <div class="column grow margin-left">
+            <div class="autocomplete row">
+              <input type="text" v-model="search" @input="onChange" class="grow" />
+            </div>
             <ul v-show="isOpen" class="autocomplete-results">
               <li v-for="(item) in filteredPlayerslist" v-bind:key="item.IDFicJoueur" @click="setResult(item.NomJoueur)" class="autocomplete-result">
                 {{ item.NomJoueur }}
@@ -159,6 +162,7 @@ export default {
 
 .item-container {
   width: 80%;
+  margin-top: 50px;
   margin-left: auto;
   margin-right: auto;
 
@@ -183,6 +187,10 @@ export default {
   align-items: center;
 }
 
+.align-top {
+  align-items: start;
+}
+
 .fieldset {
   border: 2px solid #439973;
   border-radius: 10px;
@@ -200,8 +208,11 @@ export default {
   padding: 0;
 }
 
-.autocomplete {
+.margin-left {
   margin-left: 20px;
+}
+
+.autocomplete {
   display: flex;
   height: 30px;
   flex-grow: 1;
@@ -211,7 +222,7 @@ export default {
 .autocomplete-results {
   padding: 0;
   margin: 0;
-  height: 30px;
+  height: 200px;
   border: 1px solid #eeeeee;
   overflow: auto;
 }
@@ -224,8 +235,8 @@ export default {
 }
 
 .autocomplete-result:hover {
-  background-color: #4AAE9B;
-  color: white;
+  background-color: #439973;
+  color: #ffffff;
 }
 
 input[type="checkbox"]:not(:checked)+label img {
