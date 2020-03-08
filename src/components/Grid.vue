@@ -6,24 +6,23 @@
         Liste des joueurs
       </legend>
       <div class="filter">
-        <div class="row">
-          <input type="checkbox" id="vit" value="Vit" v-model="checkedTypes">
-          <label for="Vit"><img v-bind:src="imgSrcForColor(1)" class="type" /></label>
-          <input type="checkbox" id="force" value="Force" v-model="checkedTypes">
-          <label for="Force"><img v-bind:src="imgSrcForColor(2)" class="type" /></label>
-          <input type="checkbox" id="tech" value="Tech" v-model="checkedTypes">
-          <label for="Tech"><img v-bind:src="imgSrcForColor(3)" class="type" /></label>
-          <span>{{ checkedTypes }}</span>
+        <div class="row align-center">
+          <input type="checkbox" id="vit" :value="VIT" v-model="checkedTypes" hidden="true">
+          <label for="vit"><img v-bind:src="imgSrcForColor(1)" /></label>
+          <input type="checkbox" id="force" :value="FORCE" v-model="checkedTypes" hidden="true">
+          <label for="force"><img v-bind:src="imgSrcForColor(2)" /></label>
+          <input type="checkbox" id="tec" :value="TEC" v-model="checkedTypes" hidden="true">
+          <label for="tec"><img v-bind:src="imgSrcForColor(3)" /></label>
+
+          <div class="autocomplete">
+            <input type="text" v-model="search" @input="onChange" class="grow" />
+            <ul v-show="isOpen" class="autocomplete-results">
+              <li v-for="(item) in filteredPlayerslist" v-bind:key="item.IDFicJoueur" @click="setResult(item.NomJoueur)" class="autocomplete-result">
+                {{ item.NomJoueur }}
+              </li>
+            </ul>
+          </div>
         </div>
-        <div class="autocomplete">
-          <input type="text" v-model="search" @input="onChange" />
-          <ul v-show="isOpen" class="autocomplete-results">
-            <li v-for="(item) in filteredPlayerslist" v-bind:key="item.IDFicJoueur" @click="setResult(item.NomJoueur)" class="autocomplete-result">
-              {{ item.NomJoueur }}
-            </li>
-          </ul>
-        </div>
-        <br />
       </div>
       <div class="item-container">
         <div v-for="item in filteredPlayerslist" v-bind:key="item.IDFicJoueur" class="item">
@@ -50,11 +49,15 @@
 <script>
 import json from '../data/joueurs.json'
 
+const VIT = 'Vit'
+const FORCE = 'Force'
+const TEC = 'Tec'
+
 const types = require.context('../assets/', false, /\.png$/);
 const typeForColor = {
-  1: "Vit",
-  2: "Force",
-  3: "Tech"
+  1: VIT,
+  2: FORCE,
+  3: TEC
 };
 
 export default {
@@ -119,11 +122,16 @@ export default {
   data() {
     return {
       playerJSON: json,
-      checkedTypes: [],
+      checkedTypes: [VIT, FORCE, TEC],
       search: '',
       typeForColor: typeForColor,
       isOpen: false
     }
+  },
+  created() {
+    this.VIT = VIT
+    this.FORCE = FORCE
+    this.TEC = TEC
   }
 }
 </script>
@@ -193,15 +201,18 @@ export default {
 }
 
 .autocomplete {
+  margin-left: 20px;
+  display: flex;
+  height: 30px;
+  flex-grow: 1;
   position: relative;
-  width: 130px;
 }
 
 .autocomplete-results {
   padding: 0;
   margin: 0;
+  height: 30px;
   border: 1px solid #eeeeee;
-  height: 120px;
   overflow: auto;
 }
 
@@ -215,5 +226,10 @@ export default {
 .autocomplete-result:hover {
   background-color: #4AAE9B;
   color: white;
+}
+
+input[type="checkbox"]:not(:checked)+label img {
+  opacity: 0.5;
+  filter: grayscale(1);
 }
 </style>
