@@ -6,14 +6,15 @@
         Liste des joueurs
       </legend>
       <div class="filter">
-        <select v-model="selected">
-          <option disabled value="">Choisissez</option>
-          <option>{{ typeForColor.bleu }}</option>
-          <option>{{ typeForColor.rouge }}</option>
-          <option>{{ typeForColor.vert }}</option>
-        </select>
-        <span> Sélectionné : {{ selected }}</span>
-        <br />
+        <div class="row">
+          <input type="checkbox" id="vit" value="Vit" v-model="checkedTypes">
+          <label for="Vit"><img v-bind:src="imgSrcForColor(1)" class="type" /></label>
+          <input type="checkbox" id="force" value="Force" v-model="checkedTypes">
+          <label for="Force"><img v-bind:src="imgSrcForColor(2)" class="type" /></label>
+          <input type="checkbox" id="tech" value="Tech" v-model="checkedTypes">
+          <label for="Tech"><img v-bind:src="imgSrcForColor(3)" class="type" /></label>
+          <span>{{ checkedTypes }}</span>
+        </div>
         <div class="autocomplete">
           <input type="text" v-model="search" @input="onChange" />
           <ul v-show="isOpen" class="autocomplete-results">
@@ -81,7 +82,7 @@ export default {
     },
 
     filteredPlayersByType(currentPlayers) {
-      return currentPlayers.filter(p => this.type(p.IDFicCouleur) === this.selected || this.selected === '')
+      return currentPlayers.filter(p => this.checkedTypes.includes(this.type(p.IDFicCouleur)))
 
     },
 
@@ -118,7 +119,7 @@ export default {
   data() {
     return {
       playerJSON: json,
-      selected: '',
+      checkedTypes: [],
       search: '',
       typeForColor: typeForColor,
       isOpen: false
