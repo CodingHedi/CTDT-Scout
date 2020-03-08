@@ -17,10 +17,6 @@
   </p>
   <br />
   <br />
-  <br />
-  <p> Grid :</p>
-  <br />
-  <br />
   <Grid></Grid>
 </div>
 </template>

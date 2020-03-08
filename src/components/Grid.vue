@@ -184,15 +184,15 @@ export default {
 }
 
 .fieldset {
-  border: 5px solid #4AAE9B;
-  border-radius: 8px;
-  box-shadow: 0 0 5px 2px rgba(0, 0, 0, .35);
+  border: 2px solid #439973;
+  border-radius: 10px;
 }
 
 .legend {
-  color: #fff;
-  background-color: #4AAE9B;
-  box-shadow: 0 0 5px 2px rgba(0, 0, 0, .35);
+
+  color: #439973;
+  padding-bottom: 5px;
+  font-family: 'Patua One';
   margin-left: 10%;
   font-size: 2em;
   font-weight: bold;
