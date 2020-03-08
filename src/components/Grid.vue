@@ -1,7 +1,10 @@
 <template>
 <div>
   <form>
-    <fieldset>
+    <fieldset class="fieldset">
+      <legend class="legend">
+        Liste des joueurs
+      </legend>
       <div class="filter">
         <select v-model="selected">
           <option disabled value="">Choisissez</option>
@@ -169,6 +172,23 @@ export default {
 
 .align-center {
   align-items: center;
+}
+
+.fieldset {
+  border: 5px solid #4AAE9B;
+  border-radius: 8px;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, .35);
+}
+
+.legend {
+  color: #fff;
+  background-color: #4AAE9B;
+  box-shadow: 0 0 5px 2px rgba(0, 0, 0, .35);
+  margin-left: 10%;
+  font-size: 2em;
+  font-weight: bold;
+  text-align: center;
+  padding: 0;
 }
 
 .autocomplete {
