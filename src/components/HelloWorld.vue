@@ -13,7 +13,7 @@
   <h3>🔥 PLUS RIEN N'EST ESSENTIEL ICI !!! 🔥</h3>
 
   <p>
-    Le dernier putain de bouton appuyé est {{ last }}
+    Le dernier bouton appuyé est {{ last }}
   </p>
   <br />
   <br />
